@@ -18,6 +18,7 @@ interface Content {
 class Crowller {
   private secret = 'secretKey'
   private url = `http://www.dell-lee.com/typescript/demo.html?secret=${this.secret}`
+  private filePath = path.resolve(__dirname,'../data/course.json')
   // 拿到课程信息
   getCourseInfo(html: string){
     const $ = cheerio.load(html)
@@ -42,22 +43,20 @@ class Crowller {
   }
   // 生成json
   generateJsonContent(courseInfo: CourseResult) {
-    const filePath = path.resolve(__dirname,'../data/course.json')
     let fileContent:Content = {}
-    if(fs.existsSync(filePath)){
-      fileContent = JSON.parse(fs.readFileSync(filePath,'utf-8'))
+    if(fs.existsSync(this.filePath)){
+      fileContent = JSON.parse(fs.readFileSync(this.filePath,'utf-8'))
     }
     fileContent[courseInfo.time] = courseInfo.data
     return fileContent
   }
   // 爬取
   async initSpiderProcess() {
-    const filePath = path.resolve(__dirname,'../data/course.json')
     const html = await this.getRawHtml()
     const courseInfo = this.getCourseInfo(html)
     const fileContent = this.generateJsonContent(courseInfo)
     // 写入文件
-    fs.writeFileSync(filePath,JSON.stringify(fileContent))
+    fs.writeFileSync(this.filePath,JSON.stringify(fileContent))
   }
   constructor () {
     this.initSpiderProcess()
