@@ -7,10 +7,11 @@ import path from 'path'
 import superagent from 'superagent'
 import DellAnalyzer from './dellAnalyzer'
 
-
+export interface Analyze {
+  analyze: (html: string, filePath: string) => string
+}
 class Crowller {
-  private secret = 'secretKey'
-  private url = `http://www.dell-lee.com/typescript/demo.html?secret=${this.secret}`
+
   private filePath = path.resolve(__dirname,'../data/course.json')
   
   // 拿到原始html
@@ -26,10 +27,13 @@ class Crowller {
     // 写入文件
     fs.writeFileSync(this.filePath,JSON.stringify(fileContent))
   }
-  constructor (private analyze: any) {
+  constructor (private url: string, private analyze: Analyze) {
     this.initSpiderProcess()
   }
 }
 
+  const secret = 'secretKey'
+  const url = `http://www.dell-lee.com/typescript/demo.html?secret=${secret}`
+
 const analyze = new DellAnalyzer()
-const crowller = new Crowller(analyze)
+new Crowller(url, analyze)

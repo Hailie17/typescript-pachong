@@ -4,6 +4,7 @@
 import * as cheerio from 'cheerio';
 import { data } from 'cheerio/dist/commonjs/api/attributes';
 import fs from 'fs'
+import { Analyze } from './crowller';
 interface Course {
   title: string,
   count: number
@@ -15,7 +16,7 @@ interface CourseResult {
 interface Content {
   [propName: number]: Course[]
 }
-export default class DellAnalyzer {
+export default class DellAnalyzer implements Analyze {
   // 拿到课程信息
   private getCourseInfo(html: string){
     const $ = cheerio.load(html)
