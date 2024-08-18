@@ -1,5 +1,5 @@
 /**
- * 分析页面拿到内容
+ * 分析页面拿到的内容
  */
 import * as cheerio from 'cheerio';
 import { data } from 'cheerio/dist/commonjs/api/attributes';
