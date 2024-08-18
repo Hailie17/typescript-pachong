@@ -5,12 +5,19 @@
   "main": "index.js",
   "scripts": {
     "dev": "ts-node ./src/crowller.ts",
-    "build": "tsc -w"
+    "build": "tsc -w",
+    "start": "nodemon node ./build/crowller.js"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "data/*"
+    ]    
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@types/superagent": "^8.1.8",
+    "nodemon": "^3.1.4",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.4"
   },
