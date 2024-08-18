@@ -15,13 +15,13 @@ class Crowller {
   private filePath = path.resolve(__dirname,'../data/course.json')
   
   // 拿到原始html
-  async getRawHtml() {
+  private async getRawHtml() {
     const result = await superagent.get(this.url)
     return result.text
   }
   
   // 爬取
-  async initSpiderProcess() {
+  private async initSpiderProcess() {
     const html = await this.getRawHtml()
     const fileContent = this.analyze.analyze(html, this.filePath)
     // 写入文件
@@ -35,5 +35,5 @@ class Crowller {
   const secret = 'secretKey'
   const url = `http://www.dell-lee.com/typescript/demo.html?secret=${secret}`
 
-const analyze = new DellAnalyzer()
+const analyze = DellAnalyzer.getInstance()
 new Crowller(url, analyze)
