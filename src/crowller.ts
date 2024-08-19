@@ -5,7 +5,7 @@
 import fs from 'fs'
 import path from 'path'
 import superagent from 'superagent'
-import DellAnalyzer from './dellAnalyzer'
+
 
 export interface Analyze {
   analyze: (html: string, filePath: string) => string
@@ -31,9 +31,6 @@ class Crowller {
     this.initSpiderProcess()
   }
 }
+export default Crowller
 
-  const secret = 'secretKey'
-  const url = `http://www.dell-lee.com/typescript/demo.html?secret=${secret}`
 
-const analyze = DellAnalyzer.getInstance()
-new Crowller(url, analyze)

@@ -18,7 +18,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 const superagent_1 = __importDefault(require("superagent"));
-const dellAnalyzer_1 = __importDefault(require("./dellAnalyzer"));
 class Crowller {
     // 拿到原始html
     getRawHtml() {
@@ -43,7 +42,4 @@ class Crowller {
         this.initSpiderProcess();
     }
 }
-const secret = 'secretKey';
-const url = `http://www.dell-lee.com/typescript/demo.html?secret=${secret}`;
-const analyze = dellAnalyzer_1.default.getInstance();
-new Crowller(url, analyze);
+exports.default = Crowller;
