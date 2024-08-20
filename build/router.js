@@ -1,11 +1,6 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const crowller_1 = __importDefault(require("./crowller"));
-const dellAnalyzer_1 = __importDefault(require("./dellAnalyzer"));
 const router = (0, express_1.Router)();
 router.get('/', (req, res) => {
     res.send(`
@@ -20,15 +15,22 @@ router.get('/', (req, res) => {
     `);
 });
 router.post('/getData', (req, res) => {
-    if (req.body.password === '123') {
-        const secret = 'secretKey';
-        const url = `http://www.dell-lee.com/typescript/demo.html?secret=${secret}`;
-        const analyze = dellAnalyzer_1.default.getInstance();
-        new crowller_1.default(url, analyze);
-        res.send('ok');
+    // const secret = 'secretKey'
+    // const url = `http://www.dell-lee.com/typescript/demo.html?secret=${secret}`
+    // const analyze = DellAnalyzer.getInstance()
+    // new Crowller(url, analyze)
+    const isLogin = req.session ? req.session.login : false;
+    if (isLogin) {
+        res.send('已经登录');
     }
     else {
-        res.send('password error');
+        if (req.body.password === '123' && req.session) {
+            req.session.login = true;
+            res.send('登陆成功');
+        }
+        else {
+            res.send('password error');
+        }
     }
 });
 exports.default = router;

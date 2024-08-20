@@ -32,11 +32,9 @@ router.post('/getData', (req: IRequest, res: Response) => {
   if(isLogin) {
     res.send('已经登录')
   } else {
-    if(req.body.password === '123'){
-      if(req.session) {
-        req.session.login = true
-        res.send('登陆成功')
-      }
+    if(req.body.password === '123' && req.session){
+      req.session.login = true
+      res.send('登陆成功')
     } else {
       res.send('password error')
     }
