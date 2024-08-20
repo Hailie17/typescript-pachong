@@ -24,15 +24,23 @@ router.get('/', (req: Request, res: Response) => {
 })
 
 router.post('/getData', (req: IRequest, res: Response) => {
-  if(req.body.password === '123'){
-    const secret = 'secretKey'
-    const url = `http://www.dell-lee.com/typescript/demo.html?secret=${secret}`
-    const analyze = DellAnalyzer.getInstance()
-    new Crowller(url, analyze)
-    res.send('ok')
+  // const secret = 'secretKey'
+  // const url = `http://www.dell-lee.com/typescript/demo.html?secret=${secret}`
+  // const analyze = DellAnalyzer.getInstance()
+  // new Crowller(url, analyze)
+  const isLogin = req.session ? req.session.login : false
+  if(isLogin) {
+    res.send('已经登录')
   } else {
-    res.send('password error')
-  }
+    if(req.body.password === '123'){
+      if(req.session) {
+        req.session.login = true
+        res.send('登陆成功')
+      }
+    } else {
+      res.send('password error')
+    }
+  } 
 })
 
 export default router
