@@ -4,6 +4,12 @@ import DellAnalyzer from './dellAnalyzer'
 
 const router = Router()
 
+interface IRequest extends Request {
+  body: {
+    [key: string]: string
+  }
+}
+
 router.get('/', (req: Request, res: Response) => {
   res.send(`
     <html>
@@ -17,7 +23,7 @@ router.get('/', (req: Request, res: Response) => {
     `)
 })
 
-router.post('/getData', (req: Request, res: Response) => {
+router.post('/getData', (req: IRequest, res: Response) => {
   if(req.body.password === '123'){
     const secret = 'secretKey'
     const url = `http://www.dell-lee.com/typescript/demo.html?secret=${secret}`

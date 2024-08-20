@@ -9,5 +9,4 @@ app.use(router)
 
 app.listen(7001, () => {
   console.log('server is running');
-  
 })
