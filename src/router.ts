@@ -11,16 +11,34 @@ interface IRequest extends Request {
 }
 
 router.get('/', (req: Request, res: Response) => {
-  res.send(`
+  const isLogin = req.session ? req.session.login : false
+  if(isLogin) {
+    res.send(`
     <html>
       <body>
-        <form method='post' action='/getData'>
-          <input type="password" name="password"/>
-          <button type="submit">提交</button>
-        </form>
+        <a href="/logout">退出</a>
       </body>
     </html>
     `)
+  } else {
+    res.send(`
+      <html>
+        <body>
+          <form method='post' action='/getData'>
+            <input type="password" name="password"/>
+            <button type="submit">提交</button>
+          </form>
+        </body>
+      </html>
+      `)
+  }
+})
+
+router.get('/logout', (req: Request, res: Response) => {
+  if(req.session) {
+    req.session.login = undefined
+  }
+  res.redirect('/')
 })
 
 router.post('/getData', (req: IRequest, res: Response) => {

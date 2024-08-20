@@ -3,16 +3,34 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const router = (0, express_1.Router)();
 router.get('/', (req, res) => {
-    res.send(`
+    const isLogin = req.session ? req.session.login : false;
+    if (isLogin) {
+        res.send(`
     <html>
       <body>
-        <form method='post' action='/getData'>
-          <input type="password" name="password"/>
-          <button type="submit">提交</button>
-        </form>
+        <a href="/logout">退出</a>
       </body>
     </html>
     `);
+    }
+    else {
+        res.send(`
+      <html>
+        <body>
+          <form method='post' action='/getData'>
+            <input type="password" name="password"/>
+            <button type="submit">提交</button>
+          </form>
+        </body>
+      </html>
+      `);
+    }
+});
+router.get('/logout', (req, res) => {
+    if (req.session) {
+        req.session.login = undefined;
+    }
+    res.redirect('/');
 });
 router.post('/getData', (req, res) => {
     // const secret = 'secretKey'
