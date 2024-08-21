@@ -59,8 +59,9 @@ class DellAnalyzer {
     generateJsonContent(courseInfo, filePath) {
         let fileContent = {};
         if (fs_1.default.existsSync(filePath)) {
-            fileContent = JSON.parse(fs_1.default.readFileSync(filePath, 'utf-8'));
+            fileContent = JSON.parse(JSON.parse(fs_1.default.readFileSync(filePath, 'utf-8')));
         }
+        console.log(fileContent, 222);
         fileContent[courseInfo.time] = courseInfo.data;
         return fileContent;
     }

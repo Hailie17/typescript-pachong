@@ -1,6 +1,8 @@
 import { Router, Request, Response } from "express";
 import Crowller from './crowller'
 import DellAnalyzer from './dellAnalyzer'
+import path from 'path'
+import fs from 'fs'
 
 const router = Router()
 
@@ -17,6 +19,7 @@ router.get('/', (req: Request, res: Response) => {
     <html>
       <body>
         <a href="/getData">爬取网页</a>
+        <a href="/showData">展示内容</a>
         <a href="/logout">退出</a>
       </body>
     </html>
@@ -25,7 +28,7 @@ router.get('/', (req: Request, res: Response) => {
     res.send(`
       <html>
         <body>
-          <form method='post' action='/getData'>
+          <form method='post' action='/login'>
             <input type="password" name="password"/>
             <button type="submit">提交</button>
           </form>
@@ -67,6 +70,16 @@ router.get('/getData', (req: IRequest, res: Response) => {
   } else {
     res.send('请登录后爬取')
   } 
+})
+
+router.get('/showData', (req: IRequest, res: Response) => {
+  try {
+    const position = path.resolve(__dirname, '../data/course.json')
+    const result = fs.readFileSync(position, 'utf-8')
+    res.json(JSON.parse(JSON.parse(result)))
+  } catch (error) {
+    res.send('尚未爬取到数据')
+  }
 })
 
 export default router

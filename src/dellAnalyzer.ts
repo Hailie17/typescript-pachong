@@ -45,8 +45,10 @@ export default class DellAnalyzer implements Analyze {
   private generateJsonContent(courseInfo: CourseResult,filePath:string) {
     let fileContent:Content = {}
     if(fs.existsSync(filePath)){
-      fileContent = JSON.parse(fs.readFileSync(filePath,'utf-8'))
+      fileContent = JSON.parse(JSON.parse(fs.readFileSync(filePath,'utf-8')))
     }
+    console.log(fileContent,222);
+    
     fileContent[courseInfo.time] = courseInfo.data
     return fileContent
   }
