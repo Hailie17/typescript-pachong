@@ -3,6 +3,7 @@ import Crowller from './crowller'
 import DellAnalyzer from './dellAnalyzer'
 import path from 'path'
 import fs from 'fs'
+import {getResponseData} from './utils/utils'
 
 const router = Router()
 
@@ -17,7 +18,7 @@ const checkLogin = (req: Request, res: Response, next: NextFunction) => {
   if(isLogin) {
     next()
   }
-  res.send('请先登录')
+  res.json(getResponseData(null, '请先登录'))
 }
 
 router.get('/', (req: Request, res: Response) => {
@@ -50,16 +51,16 @@ router.get('/logout', (req: Request, res: Response) => {
   if(req.session) {
     req.session.login = undefined
   }
-  res.redirect('/')
+  res.json(getResponseData(true))
 })
 
 router.post('/login',checkLogin, (req: Request, res: Response) => {
   
   if(req.body.password === '123' && req.session) {
     req.session.login = true
-    res.send('登录成功')
+    res.json(getResponseData(true))
   } else {
-    res.send('登录失败')
+    res.json(getResponseData(null, '登录失败'))
   }
   
 })

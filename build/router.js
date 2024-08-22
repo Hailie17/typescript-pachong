@@ -8,13 +8,14 @@ const crowller_1 = __importDefault(require("./crowller"));
 const dellAnalyzer_1 = __importDefault(require("./dellAnalyzer"));
 const path_1 = __importDefault(require("path"));
 const fs_1 = __importDefault(require("fs"));
+const utils_1 = require("./utils/utils");
 const router = (0, express_1.Router)();
 const checkLogin = (req, res, next) => {
     const isLogin = req.session ? req.session.login : false;
     if (isLogin) {
         next();
     }
-    res.send('请先登录');
+    res.json((0, utils_1.getResponseData)(null, '请先登录'));
 };
 router.get('/', (req, res) => {
     const isLogin = req.session ? req.session.login : false;
@@ -46,15 +47,15 @@ router.get('/logout', (req, res) => {
     if (req.session) {
         req.session.login = undefined;
     }
-    res.redirect('/');
+    res.json((0, utils_1.getResponseData)(true));
 });
 router.post('/login', checkLogin, (req, res) => {
     if (req.body.password === '123' && req.session) {
         req.session.login = true;
-        res.send('登录成功');
+        res.json((0, utils_1.getResponseData)(true));
     }
     else {
-        res.send('登录失败');
+        res.json((0, utils_1.getResponseData)(null, '登录失败'));
     }
 });
 router.get('/getData', checkLogin, (req, res) => {
