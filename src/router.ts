@@ -55,14 +55,12 @@ router.get('/logout', (req: Request, res: Response) => {
 })
 
 router.post('/login',checkLogin, (req: Request, res: Response) => {
-  
   if(req.body.password === '123' && req.session) {
     req.session.login = true
     res.json(getResponseData(true))
   } else {
     res.json(getResponseData(null, '登录失败'))
   }
-  
 })
 
 router.get('/getData', checkLogin,(req: IRequest, res: Response) => {
