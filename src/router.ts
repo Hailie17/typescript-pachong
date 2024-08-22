@@ -1,4 +1,4 @@
-import { Router, Request, Response } from "express";
+import { Router, Request, Response, NextFunction } from "express";
 import Crowller from './crowller'
 import DellAnalyzer from './dellAnalyzer'
 import path from 'path'
@@ -10,6 +10,14 @@ interface IRequest extends Request {
   body: {
     [key: string]: string
   }
+}
+
+const checkLogin = (req: Request, res: Response, next: NextFunction) => {
+  const isLogin = req.session ? req.session.login : false
+  if(isLogin) {
+    next()
+  }
+  res.send('请先登录')
 }
 
 router.get('/', (req: Request, res: Response) => {
@@ -45,34 +53,28 @@ router.get('/logout', (req: Request, res: Response) => {
   res.redirect('/')
 })
 
-router.post('/login', (req: Request, res: Response) => {
-  const isLogin = req.session ? req.session.login : false
-  if(isLogin) {
-    res.send('已登录')
+router.post('/login',checkLogin, (req: Request, res: Response) => {
+  
+  if(req.body.password === '123' && req.session) {
+    req.session.login = true
+    res.send('登录成功')
   } else {
-    if(req.body.password === '123' && req.session) {
-      req.session.login = true
-      res.send('登录成功')
-    } else {
-      res.send('登录失败')
-    }
+    res.send('登录失败')
   }
+  
 })
 
-router.get('/getData', (req: IRequest, res: Response) => {
-  const isLogin = req.session ? req.session.login : false
-  if(isLogin) {
+router.get('/getData', checkLogin,(req: IRequest, res: Response) => {
+  
     const secret = 'secretKey'
     const url = `http://www.dell-lee.com/typescript/demo.html?secret=${secret}`
     const analyze = DellAnalyzer.getInstance()
     new Crowller(url, analyze)
     res.send('爬取成功')
-  } else {
-    res.send('请登录后爬取')
-  } 
+  
 })
 
-router.get('/showData', (req: IRequest, res: Response) => {
+router.get('/showData',checkLogin, (req: IRequest, res: Response) => {
   try {
     const position = path.resolve(__dirname, '../data/course.json')
     const result = fs.readFileSync(position, 'utf-8')
