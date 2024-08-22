@@ -65,6 +65,7 @@ class DellAnalyzer {
         fileContent[courseInfo.time] = courseInfo.data;
         return fileContent;
     }
+    // 11
     analyze(html, filePath) {
         const courseInfo = this.getCourseInfo(html);
         const fileContent = this.generateJsonContent(courseInfo, filePath);

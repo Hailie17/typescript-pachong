@@ -52,7 +52,7 @@ export default class DellAnalyzer implements Analyze {
     fileContent[courseInfo.time] = courseInfo.data
     return fileContent
   }
-
+// 11
   public analyze(html:string, filePath:string) {
     const courseInfo = this.getCourseInfo(html)
     const fileContent = this.generateJsonContent(courseInfo,filePath)
