@@ -12,7 +12,7 @@ app.use(
     maxAge: 24 * 60 * 60 * 1000
   })
 )
-// 11
+
 app.use(router)
 app.listen(7001, () => {
   console.log('server is running');
