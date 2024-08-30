@@ -1,14 +1,14 @@
 // 普通方法，target 对应的是类的prototype
 
-import { text } from "body-parser";
 
 // 静态方法：target 对应的是类的构造函数
-function visitDecorator(target: any, key: string, descriptor: PropertyDescriptor) {
+function nameDecorator(target: any, key: string) {
   console.log(target, key);
   
 }
-
+// 111
 class Test1 {
+  @nameDecorator
   name = 'dell'
 }
 
