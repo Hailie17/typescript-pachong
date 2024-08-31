@@ -6,7 +6,7 @@ function nameDecorator(target: any, key: string) {
   console.log(target, key);
   
 }
-// 111
+
 class Test1 {
   @nameDecorator
   name = 'dell'
