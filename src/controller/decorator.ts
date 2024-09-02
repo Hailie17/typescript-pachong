@@ -1,3 +1,6 @@
+import { Router } from "express";
+export const router = Router()
+
 export function get(path:string){
   return function(target: any, key: string){
     Reflect.defineMetadata('path',path,target,key)
@@ -6,7 +9,10 @@ export function get(path:string){
 
 export function controller(target: any) {
   for(let key in target.prototype){
-    console.log(222);
-    console.log(Reflect.getMetadata('path',target.prototype,key));
+    const path = Reflect.defineMetadata('path', target.prototype, key)
+    const handler = target.prototype[key]
+    if(path) {
+      router.get(path,handler)
+    }
   }
 } 
