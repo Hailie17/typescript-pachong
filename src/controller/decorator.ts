@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { RequestHandler, Router } from "express";
 export const router = Router()
 
 enum Method {
@@ -25,11 +25,22 @@ export function controller(target: any) {
     const path = Reflect.defineMetadata('path', target.prototype, key)
     const method: Method = Reflect.getMetadata('method', target.prototype, key)
     const handler = target.prototype[key]
+    const middleware = Reflect.getMetadata('middleware', target.prototype, key)
     if(path && method && handler) {
-      router[method](path, handler)
+      if(middleware) {
+        router[method](path, middleware, handler)
+      } else {
+        router[method](path, handler)
+      }
     }
   }
 } 
+
+export function use(middleware: RequestHandler) {
+  return function (target: any, key: string){
+    Reflect.defineMetadata('middleware',middleware,target,key)
+  }
+}
 
 function getRequestDecorator(type: string) {
   return function(path: string) {

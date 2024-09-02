@@ -3,10 +3,15 @@ import 'reflect-metadata'
 import { get, post, controller } from "./decorator";
 import {getResponseData} from '../utils/utils'
 
+interface IRequest extends Request {
+  body: {
+    [key: string]: string
+  }
+}
 @controller
 class LoginController {
   @post('/login')
-  login(req: Request, res: Response){
+  login(req: IRequest, res: Response){
      if(req.body.password === '123' && req.session) {
       req.session.login = true
       res.json(getResponseData(true))
@@ -15,14 +20,14 @@ class LoginController {
     }
   }
   @get('/logout')
-  logout(req: Request, res: Response){
+  logout(req: IRequest, res: Response){
     if(req.session) {
     req.session.login = undefined
   }
   res.json(getResponseData(true))
   }
   @get('/')
-  home(req: Request, res: Response){
+  home(req: IRequest, res: Response){
     const isLogin = req.session ? req.session.login : false
   if(isLogin) {
     res.send(`
