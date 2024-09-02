@@ -1,13 +1,18 @@
 import { Request, Response } from "express";
 import 'reflect-metadata'
-import { get, controller } from "./decorator";
+import { get, post, controller } from "./decorator";
 import {getResponseData} from '../utils/utils'
 
 @controller
 class LoginController {
-  @get('/login')
+  @post('/login')
   login(req: Request, res: Response){
-    res.send('login is running')
+     if(req.body.password === '123' && req.session) {
+      req.session.login = true
+      res.json(getResponseData(true))
+    } else {
+      res.json(getResponseData(null, '登录失败'))
+    }
   }
   @get('/logout')
   logout(req: Request, res: Response){
