@@ -1,12 +1,8 @@
 import { Request, Response } from "express";
 import 'reflect-metadata'
+import { get, controller } from "./decorator";
 
-function get(path:string){
-  return function(target: any, key: string){
-    Reflect.defineMetadata('path',path,target,key)
-  }
-}
-
+@controller
 class LoginController {
   @get('/')
   home(req: Request, res: Response){
