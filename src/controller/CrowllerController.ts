@@ -12,13 +12,18 @@ interface IRequest extends Request {
     [key: string]: string
   }
 }
-
+// 中间件
 const checkLogin = (req: Request, res: Response, next: NextFunction) => {
   const isLogin = req.session ? req.session.login : false
   if(isLogin) {
     next()
   }
   res.json(getResponseData(null, '请先登录'))
+}
+// 中间件
+const test = (req: Request, res: Response, next: NextFunction) => {
+  console.log('test middleware');
+  next()
 }
 
 @controller
