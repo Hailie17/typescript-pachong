@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import 'reflect-metadata'
 import path from 'path'
 import fs from 'fs'
-import { get, use, controller } from "./decorator";
+import {controller,use, get, post} from "../decorator";
 import Crowller from '../crowller'
 import DellAnalyzer from '../dellAnalyzer'
 import { getResponseData } from "../utils/utils";

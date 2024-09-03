@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import 'reflect-metadata'
-import { get, post, controller } from "./decorator";
+import {controller, use,get, post} from "../decorator";
 import {getResponseData} from '../utils/utils'
 
 interface IRequest extends Request {
